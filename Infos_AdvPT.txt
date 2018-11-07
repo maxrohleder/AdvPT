@@ -1,0 +1,9 @@
+ALLES AUF STUDON 
+
+Zeit Ort:
+- 18.15 Dienstag H9
+
+- Ein Projekt zu dritt
+- StudOn gibt an ob Vorlesung ist 
+- Exercises on Dienstag 12.15 oder 14.15
+	    on Donnerstag 10.00 oder 12.15
