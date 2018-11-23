@@ -1,9 +1,11 @@
-// this file is just for documenting the required interface to compile with MatrixTest.cpp (declarations only)
 #include <iostream>
 #include <assert.h>
-#include "Vector.h"
+#include "MatrixLike.h"
+//#include "Vector.h"
 
 using namespace std;
+
+template<typename T> class Vector;
 
 template <typename T>
 class Matrix {
@@ -112,56 +114,55 @@ public:
 		return *this;
 	};
 
-	// TODO implement
-	Vector<T> operator* (const Vector<T> & o) const {
-		
+	// matrix vector multiplication
+	Vector<T> operator* (const Vector<T>& o) const {
+		assert(no_cols == o.size());
+		Vector<T> output = Vector<T>(no_rows, (T) 0);
+		for (size_t y = 0; y < no_rows; y++){
+			for (size_t x = 0; x < no_cols; x++){
+				output(y) += o(x) * data[y*no_cols + x];
+			}
+		}
+		return output;
 	};
 
-	// TODO implement
-	Matrix<T> inverseDiagonal(const Matrix<T>& n) const {
-		Matrix<T> diag = n;
-		for (size_t c = 0; c < n.cols; c++)
-		{
-			for (size_t r = 0; r < n.rows; r++)
-			{
-				if (r != c) {
-					diag(r, c) = (T) 0.;
-				}
+	Matrix<T> inverseDiagonal() const {
+		assert(no_cols == no_rows);
+		Matrix<T> diag = *this;
+		for (size_t c = 0; c < no_cols; c++){
+			for (size_t r = 0; r < no_rows; r++){
+				if (r != c) 
+					diag(c, r) = (T) 0;
 				else {
-					diag(r, c) = 1 / n(r, c);
+					T val = diag(c, r);
+					assert(val != (T) 0.);
+					diag(c, r) = 1 / val;
 				}
 			}
 		}
 		return diag;
 	};
 
+	friend ostream& operator <<(ostream& out, const Matrix<T>& n) {
+		for (size_t i = 0; i < n.no_cols*n.no_rows; i++)
+		{
+			if (i % n.no_cols == n.no_cols - 1) out << n.data[i] << endl << endl;
+			else out << n.data[i] << "\t";
+		}
+		return out;
+	};
 
+	friend istream& operator >>(istream& in, const Matrix<T>& n) {
+		for (size_t i = 0; i < n.no_cols*n.no_rows; i++)
+		{
+			in >> n.data[i];
+		}
 
-	// toString method
-	friend ostream& operator <<(ostream&, const Matrix&);
-	// readin method
-	friend istream& operator >>(istream&, const Matrix&);
+		return in;
+	};
 
 	// getter for private members
 	size_t rows() const { return no_rows; };
 	size_t cols() const { return no_cols; };
 
-};
-
-ostream& operator <<(ostream& out, const Matrix& n) {
-	for (size_t i = 0; i < n.no_cols*n.no_rows; i++)
-	{
-		if (i % n.no_cols == n.no_cols - 1) out << n.data[i] << endl << endl;
-		else out << n.data[i] << "\t";
-	}
-	return out;
-};
-
-istream& operator >>(istream& in, const Matrix& n) {
-	for (size_t i = 0; i < n.no_cols*n.no_rows; i++)
-	{
-		in >> n.data[i];
-	}
-
-	return in;
 };

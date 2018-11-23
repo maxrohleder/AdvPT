@@ -1,8 +1,10 @@
 #include <iostream>
+#include <chrono>
 
 #include "Matrix.h"
 #include "Vector.h"
 #include "Stencil.h"
+
 
 #define PI 3.141592653589793
 
@@ -23,8 +25,9 @@ void solve (const Matrix<T>& A, const Vector<T>& b, Vector<T>& u) {
 
 		curRes = (b - A * u).l2Norm( ); // update the residual
 
-		if (0 == curIt % 500) // print some info every few steps
+		if (0 == curIt % 500) { // print some info every few steps
 			std::cout << "Residual after iteration " << curIt << ":\t" << curRes << std::endl;
+		}
 	}
 
 	std::cout << "Residual after iteration " << curIt << ":\t" << curRes << std::endl << std::endl; // print the final number of iterations and the final residual
@@ -53,10 +56,15 @@ void testFullMatrix (const int numGridPoints) {
 	}
 
 	std::cout << "Initialization complete\n";
+	//std::cout <<"A: " << A <<"b: " << b << "u: " << u;
 
-	// TODO: start timing
+	// start timing
+	auto start = std::chrono::system_clock::now();
 	solve(A, b, u);
-	// TODO: end timing and print elapsed time
+	// end timing and print elapsed time
+	auto end = std::chrono::system_clock::now();
+	std::chrono::duration<double> elapsed = end - start;
+	cout << "elapsed seconds: " << elapsed.count() << endl;
 }
 
 void testStencil (const int numGridPoints) {
@@ -67,6 +75,11 @@ void testStencil (const int numGridPoints) {
 }
 
 int main(int argc, char** argv) {
-	testFullMatrix( 32 );
-	testStencil( 32 );
+	testFullMatrix(17); // 146
+	testFullMatrix(33); // 594
+	testFullMatrix(65);	
+	testFullMatrix( 129 );
+	//testStencil( 32 );
+	int a;
+	cin >> a;
 }
