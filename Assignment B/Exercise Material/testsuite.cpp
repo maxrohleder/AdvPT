@@ -2,8 +2,25 @@
 #include <iostream>
 #include "Matrix.h"
 #include "Vector.h"
+#include "MatrixLike.h"
+#include "Stencil.h"
+
+#define PI 3.141592653589793
+
 
 using namespace std;
+
+template<typename T1, class return_class>
+class gemüse {
+private:
+	size_t weight;
+	size_t calories;
+	T1 name;
+public:
+	virtual ~gemüse() noexcept = 0;
+
+	virtual return_class operator+ (const gemüse& o) const = 0;
+};
 
 template<typename T1, typename T2>
 class zwiebel {
@@ -46,7 +63,29 @@ void run_vector_tests() {
 	cout << "b+a: " << b;
 };
 
+
 int main(int argc, char** argv) {
+
+	cout << "-----------------------------------------------------\n";
+	int numGridPoints = 17;
+	const double hx = 1. / (numGridPoints - 1);
+	const double hxSq = hx * hx;
+	Stencil<double> sten = Stencil<double>({ { 0, 1. } }, { { -1, 1. / hxSq },{ 0, -2. / hxSq },{ 1, 1. / hxSq } });
+	cout << sten;
+	Stencil<double> stenI = sten.inverseDiagonal();
+	cout << stenI;
+
+	cout << "-----------------------------------------------------\n";
+	auto glambda = [](int i) -> double { return sin(2. * PI * (i / (double)(33 - 1))); };
+	Vector<double> vec = Vector<double>(10, glambda);
+	cout << vec;
+	int a;
+	cin >> a;
+
+
+}
+
+int main2(int argc, char** argv) {
 
 	zwiebel<char*, int> z = zwiebel<char*, int>("zwiebel1", 5);
 	Matrix<double> A = Matrix<double>(5, 10, 10);
@@ -81,9 +120,7 @@ int main(int argc, char** argv) {
 
 
 
-
-
-
 	int a = 0;
 	cin >> a;
+	return 0;
 }
