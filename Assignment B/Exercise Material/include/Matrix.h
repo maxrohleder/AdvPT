@@ -14,29 +14,29 @@ public:
 	// normal constructor
 	Matrix(T initValue) {
 		for (size_t i = 0; i < no_rows*no_cols; i++) data[i] = initValue;
-	};
+	}
 	// destructor
-	~Matrix() { };
+	~Matrix() { }
 	// copy constructor
 	Matrix (const Matrix<T, no_rows, no_cols>& n) {
 		for (size_t i = 0; i < no_rows*no_cols; i++) data[i] = n.data[i];
-	};
+	}
 	// assignment just calls copy constructor
 	Matrix<T, no_rows, no_cols>& operator=(const Matrix<T, no_rows, no_cols>& n) {
 		if (*this == n) return *this;
 		for (size_t i = 0; i < no_rows*no_cols; i++) data[i] = n.data[i];
 		return *this;
-	};
+	}
 	// value-setter i is the ith row and ranges between 0 and no_rows(excl)
 	T& operator()(size_t i, size_t j) {
 		assert(i >= 0 && i < no_rows && j >= 0 && j < no_cols);
 		return data[i*no_cols + j];
-	};
+	}
 	// value-getter 
 	const T& operator()(size_t i, size_t j) const {
 		assert(i >= 0 && i < no_rows && j >= 0 && j < no_cols);
 		return data[i*no_cols + j];
-	};
+	}
 	// elementwise comparison
 	template<size_t r, size_t c>
 	bool operator ==(const Matrix<T, r, c>& n) const {
@@ -47,47 +47,39 @@ public:
 			}
 		}
 		return true;
-	};
+	}
 	// elementwise negative comparison
 	template<size_t r, size_t c>
-	bool operator !=(const Matrix<T, r, c>& n) const { return !(*this == n); };
+	bool operator !=(const Matrix<T, r, c>& n) const { return !(*this == n); }
 
-	// arithmetic operators
-	// element wise addition
+
 	Matrix<T, no_rows, no_cols>& operator +=(const Matrix<T, no_rows, no_cols>& n) {
 		//assert(no_rows == n.no_rows && no_cols == n.no_cols);
 		for (size_t i = 0; i < no_cols*no_rows; i++) data[i] += n.data[i];
 		return *this;
-	};
+	}
 
 	Matrix<T, no_rows, no_cols> operator +(const Matrix<T, no_rows, no_cols>& n) const {
 		//assert(no_rows == n.no_rows && no_cols == n.no_cols);
 		Matrix ret = *this;
 		ret += n;
 		return ret;
-	};
+	}
 	// elementwise subtraction
 	Matrix<T, no_rows, no_cols>& operator -=(const Matrix<T, no_rows, no_cols>& n) {
 		//assert(no_rows == n.no_rows && no_cols == n.no_cols);
 		for (size_t i = 0; i < no_cols*no_rows; i++) data[i] -= n.data[i];
 		return *this;
-	};
+	}
 
 	Matrix<T, no_rows, no_cols> operator -(const Matrix<T, no_rows, no_cols>& n) const {
 		//assert(no_rows == n.no_rows && no_cols == n.no_cols);
 		Matrix<T, no_rows, no_cols> ret = *this;
 		ret -= n;
 		return ret;
-	};
+	}
 	// matrix multiplication (pythonic matmul-symbol @ not overloadable)
-	/*
-	a row has no_cols entries.
-	a col has no_rows entries.
 
-	m1@m2 = m3
-	(s1, s2) @ (s2, s3) --> (s1, s3)
-	(no_rows, no_cols) @ (n.no_rows, n.no_cols) --> (no_rows, n.no_cols)
-	*/
 	template<size_t r, size_t c>
 	Matrix<T, no_rows, c> operator *(const Matrix<T, r, c>& n) const {
 		// könnte static sein
@@ -111,7 +103,7 @@ public:
 	Matrix<T, no_rows, no_cols>& operator *=(const Matrix<T, no_rows, no_cols>& n) {
 		*this = *this * n;
 		return *this;
-	};
+	}
 
 	// matrix vector multiplication
 	Vector<T, no_rows> operator* (const Vector<T, no_rows> &o) const {
@@ -123,7 +115,7 @@ public:
 			}
 		}
 		return output;
-	};
+	}
 
 	Matrix<T, no_rows, no_cols> inverseDiagonal() const {
 		assert(no_cols == no_rows);
@@ -162,7 +154,7 @@ public:
 	}
 
 	// getter for private members
-	size_t rows() const { return no_rows; };
-	size_t cols() const { return no_cols; };
+	size_t rows() const { return no_rows; }
+	size_t cols() const { return no_cols; }
 
 };

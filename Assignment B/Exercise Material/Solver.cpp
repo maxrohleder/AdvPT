@@ -51,7 +51,7 @@ double testFullMatrix () {
 
 
 	A(0, 0) = 1.;
-	for (int x = 1; x < numPoints - 1; ++x) {
+	for (size_t x = 1; x < numPoints - 1; ++x) {
 		A(x, x - 1) = 1. / hxSq;
 		A(x, x) = -2. / hxSq;
 		A(x, x + 1) = 1. / hxSq;

@@ -28,7 +28,7 @@ public:
 	Stencil& operator=(const Stencil & o) {
 		innerStencil_ = o.innerStencil_;
 		boundaryStencil_ = o.boundaryStencil_;
-	};
+	}
 	//Stencil& operator=(Stencil && o) noexcept;
 
 	// HINT: stencil entries are stored as offset/coefficient pair, that is the offset specifies which element of a
@@ -51,7 +51,7 @@ public:
 			}
 		}
 		return ret;
-	};
+	}
 
 	Stencil<T, no_rows, no_cols> inverseDiagonal() const override {
 		//static_assert(no_rows == no_cols);
@@ -84,7 +84,7 @@ public:
 		};
 		*/
 		return ret;
-	};
+	}
 	/*
 	friend ostream& operator <<(ostream& out, const Stencil<T, no_rows, no_cols>& n) {
 		//out << n.boundaryStencil_;
