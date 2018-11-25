@@ -1,5 +1,6 @@
 #include <iostream>
 #include <chrono>
+#include <math.h>
 
 #include "Matrix.h"
 #include "Vector.h"
@@ -44,9 +45,10 @@ double testFullMatrix () {
 
 	std::cout << "Starting full matrix solver for " << numPoints << " grid points" << std::endl;
 
-	Matrix<double, numPoints, numPoints> A( 0. );
-	Vector<double, numPoints> u( 0.);
-	Vector<double, numPoints> b( 0.);
+	Matrix<double, numPoints, numPoints> A = Matrix<double, numPoints, numPoints>( 0. );
+	Vector<double, numPoints> u = Vector<double, numPoints>( 0. );
+	Vector<double, numPoints> b = Vector<double, numPoints>( 0. );
+
 
 	A(0, 0) = 1.;
 	for (int x = 1; x < numPoints - 1; ++x) {
@@ -83,9 +85,9 @@ double testStencil() {
 
 	std::cout << "Starting full Stencil solver for " << numPoints << " grid points" << std::endl;
 
-	Stencil<double> sten = Stencil<double>({ { 0, 1. } }, { { -1, 1. / hxSq },{ 0, -2. / hxSq },{ 1, 1. / hxSq } });
-	Vector<double> u(numPoints, 0.);
-	Vector<double> b(numPoints, 0.);
+	Stencil<double, numPoints, numPoints> sten({ { 0, 1. } }, { { -1, 1. / hxSq },{ 0, -2. / hxSq },{ 1, 1. / hxSq } });
+	Vector<double, numPoints> u( 0.);
+	Vector<double, numPoints> b( 0.);
 
 	for (int x = 0; x < numPoints; ++x) {
 		b(x) = sin(2. * PI * (x / (double)(numPoints - 1)));
@@ -98,7 +100,7 @@ double testStencil() {
 	//MatrixLike<double, Matrix<double>> A = A;
 	auto start = std::chrono::system_clock::now();
 
-	solve<double, Stencil<double>, numPoints>(sten, b, u);
+	solve<double, Stencil<double, numPoints, numPoints>, numPoints>(sten, b, u);
 	// end timing and print elapsed time
 	auto end = std::chrono::system_clock::now();
 	std::chrono::duration<double> elapsed = end - start;

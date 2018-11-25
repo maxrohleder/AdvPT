@@ -1,23 +1,24 @@
 #include <iostream>
 #include <assert.h>
+#include <array>
+
 #include "MatrixLike.h"
-//#include "Vector.h"
 
 using namespace std;
 
 template <typename T, size_t no_rows, size_t no_cols>
 class Matrix : public MatrixLike<T, Matrix<T, no_rows, no_cols>, no_rows, no_cols> {
 private:
-	T *data = nullptr;
+	array<T, no_rows*no_cols> data;
 public:
 	// normal constructor
-	Matrix(T initValue) : data(new T[no_cols*no_rows]) {
+	Matrix(T initValue) {
 		for (size_t i = 0; i < no_rows*no_cols; i++) data[i] = initValue;
 	};
 	// destructor
-	~Matrix() { delete[] data; };
+	~Matrix() { };
 	// copy constructor
-	Matrix (const Matrix<T, no_rows, no_cols>& n) : data(new T[no_cols*no_rows]) {
+	Matrix (const Matrix<T, no_rows, no_cols>& n) {
 		for (size_t i = 0; i < no_rows*no_cols; i++) data[i] = n.data[i];
 	};
 	// assignment just calls copy constructor
@@ -108,7 +109,7 @@ public:
 	};
 
 	// matrix vector multiplication
-	Vector<T, no_elem> operator* (const Vector <T, no_elem> &o) const {
+	Vector<T, no_rows> operator* (const Vector<T, no_rows> &o) const {
 		//assert(no_cols == no_elem);
 		Vector<T, no_rows> output = Vector<T, no_rows>((T) 0);
 		for (size_t y = 0; y < no_rows; y++){

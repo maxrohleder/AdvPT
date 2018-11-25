@@ -5,12 +5,12 @@ include_directories("./include")
 
 #add_executable( MatrixTest MatrixTest.cpp)
 #add_executable( MatrixAddressSanitizer MatrixTest.cpp)
-#add_executable( SolverTest SolverTest.cpp)
+add_executable( SolverTest SolverTest.cpp)
 #add_executable( SolverAddressSanitizer SolverShort.cpp)
 #add_executable( SolverValgrind SolverShort.cpp)
 add_executable( testsuite testsuite.cpp)
 add_executable( solver Solver.cpp )
-
+add_executable( tests tests.cpp )
 
 #SET_TARGET_PROPERTIES(SolverAddressSanitizer PROPERTIES COMPILE_FLAGS "-fsanitize=address -fno-omit-frame-pointer")
 #SET_TARGET_PROPERTIES(SolverAddressSanitizer PROPERTIES LINK_FLAGS "-fsanitize=address")

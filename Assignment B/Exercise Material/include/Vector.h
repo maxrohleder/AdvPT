@@ -5,81 +5,80 @@
 
 using namespace std;
 
-template <typename Tv, size_t no_elem>
+template <typename T, size_t no_elem>
 class Vector {
 private:
-	Tv *data = nullptr;
+	array<T, no_elem> data;
 public:
 	// normal constructor
-	Vector(Tv initValue) : data(new Tv[no_elem]) {
+	Vector(T initValue) {
 		for (size_t i = 0; i < no_elem; i++) data[i] = initValue;
 	};
 	// lambda constructor
-	Vector(std::function<Tv(int i)> init) {
+	Vector(std::function<T(T)> init) {
 		for (size_t i = 0; i < no_elem; i++) data[i] = init(i);
 	};
 	// destructor
-	~Vector() { delete[] data; };
+	~Vector() { };
 	// copy constructor
-	Vector(const Vector<Tv, no_elem>& n) : data(new Tv[no_elem]) {
+	Vector(const Vector<T, no_elem>& n) {
 		for (size_t i = 0; i < no_elem; i++) data[i] = n.data[i];
 	};
 	// assignment just calls copy constructor
-	Vector<Tv, no_elem>& operator=(const Vector<Tv, no_elem>& n) {
+	Vector<T, no_elem>& operator=(const Vector<T, no_elem>& n) {
 		if (*this == n) return *this;
-		delete[] data;
-		data = new Tv[no_elem];
+		data = array<T, no_rows*no_cols> data;
 		for (size_t i = 0; i < no_elem; i++) data[i] = n.data[i];
 		return *this;
 	};
 	// value-setter (returns writable reference)
-	Tv& operator()(size_t i) {
+	T& operator()(size_t i) {
 		assert(i >= 0 && i < no_elem);
 		return data[i];
 	};
 	// value-getter 
-	const Tv& operator()(size_t i) const {
+	const T& operator()(size_t i) const {
 		assert(i >= 0 && i < no_elem);
 		return data[i];
 	};
 	// elementwise comparison
-	bool operator ==(const Vector<Tv, no_elem>& n) const {
+	bool operator ==(const Vector<T, no_elem>& n) const {
 		//if (no_elem != n.no_elem) return false; not neccessary anymore
 		for (size_t i = 0; i < no_elem; i++) if (data[i] != n.data[i]) return false;
 		return true;
 	};
 	// elementwise negative comparison
-	bool operator !=(const Vector<Tv, no_elem>& n) const { return !(*this == n); };
+	bool operator !=(const Vector<T, no_elem>& n) const { return !(*this == n); };
 
 	// arithmetic operators
 	// element wise addition
-	Vector<Tv, no_elem>& operator +=(const Vector<Tv, no_elem>& n) {
+	Vector<T, no_elem>& operator +=(const Vector<T, no_elem>& n) {
 		//assert(no_elem == n.no_elem);
 		for (size_t i = 0; i < no_elem; i++) data[i] += n.data[i];
 		return *this;
 	};
 
-	Vector<Tv, no_elem> operator +(const Vector<Tv, no_elem>& n) const {
+	Vector<T, no_elem> operator +(const Vector<T, no_elem>& n) const {
 		//assert(no_elem == n.no_elem);
 		Vector ret = *this;
 		ret += n;
 		return ret;
 	};
 	// elementwise subtraction
-	Vector<Tv, no_elem>& operator -=(const Vector<Tv, no_elem>& n) {
+	Vector<T, no_elem>& operator -=(const Vector<T, no_elem>& n) {
 		//assert(no_elem == n.no_elem);
 		for (size_t i = 0; i < no_elem; i++) data[i] -= n.data[i];
 		return *this;
 	};
 
-	Vector<Tv, no_elem> operator -(const Vector<Tv, no_elem>& n) const {
+	Vector<T, no_elem> operator -(const Vector<T, no_elem>& n) const {
 		//assert(no_elem == n.no_elem);
-		Vector<Tv, no_elem> ret = *this;
+		Vector<T, no_elem> ret = *this;
 		ret -= n;
 		return ret;
 	};
 	
-	Vector<Tv, no_elem>& operator *=(const Vector<Tv, no_elem>& n) {
+	Vector<T, no_elem>& operator *=(const Vector<T, no_elem>& n) {
 		*this = *this * n;
 		return *this;
 	};
@@ -91,7 +90,7 @@ public:
 		return sqrt(norm);
 	};
 
-	friend ostream& operator <<(ostream& out, const Vector<Tv, no_elem>& n) {
+	friend ostream& operator <<(ostream& out, const Vector<T, no_elem>& n) {
 		for (size_t i = 0; i < n.no_elem; i++)
 		{
 			out << n.data[i] << endl;
@@ -99,7 +98,7 @@ public:
 		return out;
 	};
 
-	friend istream& operator >>(istream& in, const Vector<Tv, no_elem>& n) {
+	friend istream& operator >>(istream& in, const Vector<T, no_elem>& n) {
 		for (size_t i = 0; i < n.no_elem; i++)
 		{
 			in >> n.data[i];

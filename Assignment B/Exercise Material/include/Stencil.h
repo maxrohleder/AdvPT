@@ -10,11 +10,6 @@
 template<typename T>
 using StencilEntry = std::pair<int, T>; // convenience type for stencil entries
 
-// forward declarations
-template<typename T, size_t no_elem>
-class Vector;
-
-
 template<typename T, size_t no_rows, size_t no_cols>
 class Stencil : public MatrixLike<T, Stencil<T, no_rows, no_cols>, no_rows, no_cols> {
 public:
@@ -40,13 +35,11 @@ public:
 	// vector, relative to the current index, is to be regarded. It is then multiplied with the according coefficient.
 	// All of these expressions are evaluated and then summed up to get the final result.
 	Vector<T, no_rows> operator* (const Vector<T, no_cols> & o) const override {
-		assert(innerStencil_.size() % 2 != 0);
-		assert(no_cols == no_elem);
-		Vector<T, no_rows> ret = o;
+		Vector<T, no_rows> ret(0.);
 		int no_ro = (int)no_rows;
+		std::vector < StencilEntry<T> > io_sten;
 		for (int i = 0; i < no_ro; ++i)
 		{
-			std::vector < StencilEntry<T> > io_sten;
 			if (!(i == 0 || i == no_ro - 1)) io_sten = innerStencil_;
 			else io_sten = boundaryStencil_;
 			ret(i) = (T)0;
@@ -62,6 +55,15 @@ public:
 	};
 
 	Stencil<T, no_rows, no_cols> inverseDiagonal() const override {
+		//static_assert(no_rows == no_cols);
+		auto inner = find_if(innerStencil_.begin(), innerStencil_.end(), [](const StencilEntry<T> & s) {return s.first == 0; });
+		auto bound = find_if(boundaryStencil_.begin(), boundaryStencil_.end(), [](const StencilEntry<T> & s) {return s.first == 0; });
+		assert(inner->second != 0);
+		assert(bound->second != 0);
+
+		Stencil<T, no_rows, no_cols> ret({ {0, 1/bound->second} }, { {0, 1/inner->second} });
+
+		/*
 		Stencil<T, no_rows, no_cols> ret = *this;
 		for (int i = 0; i < ret.boundaryStencil_.size(); ++i) {
 			if (ret.boundaryStencil_[i].first != 0) {
@@ -81,6 +83,7 @@ public:
 				ret.innerStencil_[i].second = 1 / ret.innerStencil_[i].second;
 			}
 		};
+		*/
 		return ret;
 	};
 
