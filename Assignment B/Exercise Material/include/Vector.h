@@ -2,6 +2,7 @@
 #include <iostream>
 #include <assert.h>
 #include <functional>
+#include <math.h>
 
 using namespace std;
 
