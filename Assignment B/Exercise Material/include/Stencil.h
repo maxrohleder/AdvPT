@@ -19,7 +19,7 @@ public:
 	Stencil(const std::vector<StencilEntry<T> >& innerEntries)	// c'tor for stencils w/o explicit boundary handling
 		: boundaryStencil_(innerEntries), innerStencil_(innerEntries) { }
 
-	Stencil(const Stencil & o) : innerStencil_(o.innerStencil_), boundaryStencil_(o.boundaryStencil_) { }
+	Stencil(const Stencil & o) : boundaryStencil_(o.boundaryStencil_) , innerStencil_(o.innerStencil_) { }
 
 	//Stencil(Stencil && o) noexcept;
 
