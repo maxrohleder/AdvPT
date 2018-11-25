@@ -27,7 +27,7 @@ public:
 	// assignment just calls copy constructor
 	Vector<T, no_elem>& operator=(const Vector<T, no_elem>& n) {
 		if (*this == n) return *this;
-		data = array<T, no_rows*no_cols> data;
+		data = array<T, no_rows*no_cols>;
 		for (size_t i = 0; i < no_elem; i++) data[i] = n.data[i];
 		return *this;
 	};

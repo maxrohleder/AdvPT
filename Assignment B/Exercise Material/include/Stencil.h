@@ -86,7 +86,7 @@ public:
 		*/
 		return ret;
 	};
-
+	/*
 	friend ostream& operator <<(ostream& out, const Stencil<T, no_rows, no_cols>& n) {
 		//out << n.boundaryStencil_;
 		//out << n.innerStencil_;
@@ -105,7 +105,7 @@ public:
 		//cout << n.boundaryStencil_ << '\n';
 		return out;
 	};
-
+	*/
 protected:
 	// containers for the stencil entries -> boundary stencils represent the first and last rows of a corresponding
 	// matrix and are to be applied to the first and last element of a target vector; inner stencils correspond to
