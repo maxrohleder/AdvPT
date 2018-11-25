@@ -146,7 +146,7 @@ public:
 		return out;
 	};
 
-	friend istream& operator >>(istream& in, const Matrix<T, no_rows, no_cols>& n) {
+	friend istream& operator >>(istream& in, Matrix<T, no_rows, no_cols>& n) {
 		for (size_t i = 0; i < no_rows; ++i){
 			for (size_t j = 0; j < no_cols; ++j) {
 				in >> n(i, j);
