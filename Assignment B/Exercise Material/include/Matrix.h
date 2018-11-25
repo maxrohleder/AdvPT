@@ -106,7 +106,7 @@ public:
 			}
 		}
 		return ret;
-	};
+	}
 
 	Matrix<T, no_rows, no_cols>& operator *=(const Matrix<T, no_rows, no_cols>& n) {
 		*this = *this * n;
@@ -149,7 +149,7 @@ public:
 			else out << n.data[i] << "\t";
 		}
 		return out;
-	};
+	}
 
 	friend istream& operator >>(istream& in, Matrix<T, no_rows, no_cols>& n) {
 		for (size_t i = 0; i < no_rows; ++i){
@@ -159,7 +159,7 @@ public:
 		}
 
 		return in;
-	};
+	}
 
 	// getter for private members
 	size_t rows() const { return no_rows; };

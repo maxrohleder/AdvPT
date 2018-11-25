@@ -58,7 +58,7 @@ double testFullMatrix () {
 	}
 	A(numPoints - 1, numPoints - 1) = 1.;
 
-	for (int x = 0; x < numPoints; ++x) {
+	for (size_t x = 0; x < numPoints; ++x) {
 		b(x) = sin(2. * PI * (x / (double)(numPoints - 1)));
 	}
 
@@ -89,7 +89,7 @@ double testStencil() {
 	Vector<double, numPoints> u( 0.);
 	Vector<double, numPoints> b( 0.);
 
-	for (int x = 0; x < numPoints; ++x) {
+	for (size_t x = 0; x < numPoints; ++x) {
 		b(x) = sin(2. * PI * (x / (double)(numPoints - 1)));
 	}
 
