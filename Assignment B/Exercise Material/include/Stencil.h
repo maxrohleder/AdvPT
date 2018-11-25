@@ -36,18 +36,17 @@ public:
 	// All of these expressions are evaluated and then summed up to get the final result.
 	Vector<T, no_rows> operator* (const Vector<T, no_cols> & o) const override {
 		Vector<T, no_rows> ret(0.);
-		int no_ro = (int)no_rows;
 		std::vector < StencilEntry<T> > io_sten;
-		for (int i = 0; i < no_ro; ++i)
+		for (size_t i = 0; i < no_rows; ++i)
 		{
-			if (!(i == 0 || i == no_ro - 1)) io_sten = innerStencil_;
+			if (!(i == 0 || i == no_rows - 1)) io_sten = innerStencil_;
 			else io_sten = boundaryStencil_;
 			ret(i) = (T)0;
-			for (int j = 0; j < io_sten.size(); ++j) {
+			for (size_t j = 0; j < io_sten.size(); ++j) {
 				// starting from pos i at vector multiply and sum offsetted entries with respective stencil
 				int offset = io_sten[j].first;
 				T value = io_sten[j].second;
-				assert(i + offset >= 0 && i + offset < no_ro);
+				assert(i + offset >= 0 && i + offset < no_rows);
 				ret(i) += o(i + offset) * value;
 			}
 		}

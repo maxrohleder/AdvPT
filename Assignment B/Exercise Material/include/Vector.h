@@ -85,7 +85,7 @@ public:
 
 	double l2Norm() const {
 		double norm = 0.;
-		for (int i = 0; i < no_elem; ++i)
+		for (size_t i = 0; i < no_elem; ++i)
 			norm += data[i] * data[i];
 		return sqrt(norm);
 	};
